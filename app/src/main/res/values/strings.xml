@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Evenly</string>
+    <string name="explore">Explore</string>
+    <string name="favorites">Favorites</string>
+    <string name="evenly">Evenly</string>
+    <string name="check_the_point_of_interest_near_evenly">check the point of interest near Evenly</string>
+    <string name="see_your_favorite_places">See your favorite places</string>
+    <string name="address">Address</string>
+    <string name="price">Price</string>
+    <string name="rating">Rating</string>
+    <string name="opening_hours">Opening Hours</string>
+    <string name="thumbnail">thumbnail</string>
+    <string name="google_maps">Google maps</string>
+    <string name="share">Share</string>
+</resources>

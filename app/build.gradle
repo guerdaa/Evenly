@@ -1,0 +1,93 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+apply plugin: 'org.jetbrains.kotlin.android.extensions'
+apply plugin: 'com.android.application'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.tsellami.evenly"
+        minSdkVersion 23
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "CLIENT_ID", "\"1YTJGDPEFM0U5M3IPRIJAIGHISGHDT3IMKXIFJMYPWXB3ICQ\""
+        buildConfigField "String", "CLIENT_SECRET", "\"VUIORTGVXQL2EGLKYJ10YRXJPDAIZSC3TXWFRQIYNGW10ZA3\""
+        buildConfigField "String", "V", "\"20190425\""
+        buildConfigField "String", "LOCATION", "\"52.500342, 13.425170\""
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidXLifecyclerVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidXLifecyclerVersion"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
+    implementation "com.google.android.material:material:$googleMaterialVersion"
+
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofitScalars"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
+
+    implementation "androidx.room:room-runtime:$androidXRoomVersion"
+    kapt "androidx.room:room-compiler:$androidXRoomVersion"
+    implementation "androidx.room:room-ktx:$androidXRoomVersion"
+
+    implementation "androidx.paging:paging-runtime-ktx:$androidXPagingVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    implementation "androidx.core:core-ktx:$androidXCore"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$androidXCore"
+
+    implementation "androidx.appcompat:appcompat:$appCompatVersion"
+
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+
+    testImplementation "io.mockk:mockk:$mockkVersion"
+    testImplementation 'junit:junit:4.+'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinxCoroutinesTestVersion"
+    testImplementation "androidx.arch.core:core-testing:$coreTestingVersion"
+
+    androidTestImplementation "androidx.arch.core:core-testing:$coreTestingVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$androidXRunnerVersion"
+}
