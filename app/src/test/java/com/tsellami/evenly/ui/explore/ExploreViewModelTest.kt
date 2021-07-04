@@ -8,7 +8,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-class ExploreViewModelTest: BaseViewModelTest() {
+class ExploreViewModelTest : BaseViewModelTest() {
 
     private val recommendationsRepository: IRecommendationsRepository = mockk(relaxed = true)
     private lateinit var exploreViewModel: ExploreViewModel

@@ -9,7 +9,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-class RecommendationsRepositoryTest: BaseRepositoryTest() {
+class RecommendationsRepositoryTest : BaseRepositoryTest() {
 
     private lateinit var recommendationsRepository: RecommendationsRepository
     private val venuesDao: VenuesDao = mockk(relaxed = true)

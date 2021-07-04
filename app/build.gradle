@@ -22,8 +22,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField "String", "CLIENT_ID", "\"1YTJGDPEFM0U5M3IPRIJAIGHISGHDT3IMKXIFJMYPWXB3ICQ\""
-        buildConfigField "String", "CLIENT_SECRET", "\"VUIORTGVXQL2EGLKYJ10YRXJPDAIZSC3TXWFRQIYNGW10ZA3\""
+        buildConfigField "String", "CLIENT_ID", "\"API_KEY\""
+        buildConfigField "String", "CLIENT_SECRET", "\"CLIENT_SECRET\""
         buildConfigField "String", "V", "\"20190425\""
         buildConfigField "String", "LOCATION", "\"52.500342, 13.425170\""
     }

@@ -13,7 +13,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class FavoritesRepositoryTest: BaseRepositoryTest() {
+class FavoritesRepositoryTest : BaseRepositoryTest() {
 
     private lateinit var favoritesRepository: FavoritesRepository
     private val venuesDao: VenuesDao = mockk(relaxed = true)

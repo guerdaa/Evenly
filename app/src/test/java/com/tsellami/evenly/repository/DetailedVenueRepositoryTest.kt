@@ -12,7 +12,7 @@ import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 
-class DetailedVenueRepositoryTest: BaseRepositoryTest() {
+class DetailedVenueRepositoryTest : BaseRepositoryTest() {
 
     private val venuesDao: VenuesDao = mockk(relaxed = true)
 

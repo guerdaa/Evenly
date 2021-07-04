@@ -3,7 +3,6 @@ package com.tsellami.evenly.repository
 import com.tsellami.evenly.repository.network.FoursquareApi
 import com.tsellami.evenly.repository.rooms.VenuesDatabase
 import io.mockk.mockk
-import org.junit.Before
 
 open class BaseRepositoryTest {
 

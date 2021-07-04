@@ -1,6 +1,6 @@
 package com.tsellami.evenly.repository.network.dto
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class VenueDtoTest {
