@@ -12,4 +12,8 @@
     <string name="thumbnail">thumbnail</string>
     <string name="google_maps">Google maps</string>
     <string name="share">Share</string>
+    <string name="retry">retry</string>
+    <string name="not_available">Not available</string>
+    <string name="error_occurred">An error occurred.</string>
+    <string name="nothing_found">Nothing found</string>
 </resources>

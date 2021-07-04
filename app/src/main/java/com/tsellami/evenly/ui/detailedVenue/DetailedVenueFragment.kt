@@ -3,7 +3,6 @@ package com.tsellami.evenly.ui.detailedVenue
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,8 +12,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.tsellami.evenly.R
 import com.tsellami.evenly.databinding.DetailedVenueFragmentBinding
-import com.tsellami.evenly.rooms.DetailedVenue
-import com.tsellami.evenly.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -34,17 +31,17 @@ class DetailedVenueFragment : Fragment(R.layout.detailed_venue_fragment) {
         viewModel.retrieveDetails(args.id)
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.resource.collect { event ->
-                when(event) {
-                    is Resource.Loading -> {
+                when (event) {
+                    is DetailedVenueViewModel.RetrievingEvent.Loading -> {
                         binding.apply {
                             mainLayout.visibility = View.GONE
-                            loading.visibility = View.VISIBLE
+                            loadingView.visibility = View.VISIBLE
                         }
                     }
-                    is Resource.Success -> {
+                    is DetailedVenueViewModel.RetrievingEvent.Success -> {
                         binding.apply {
                             mainLayout.visibility = View.VISIBLE
-                            loading.visibility = View.GONE
+                            loadingView.visibility = View.GONE
                         }
                     }
                 }
@@ -64,18 +61,20 @@ class DetailedVenueFragment : Fragment(R.layout.detailed_venue_fragment) {
     private fun bindDetails() {
         viewModel.details.observe(viewLifecycleOwner, { details ->
             binding.apply {
-                price.text = details.price
-                rating.text = "${details.rating} / 10"
-                openingHours.text = details.openingHours
-                Glide.with(requireContext()).load(details.thumbnail).centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade())
-                    .error(R.drawable.ic_error)
-                    .into(thumbnail)
-                shareButton.setOnClickListener {
-                    shareCanonicalUrl(details.canonicalUrl)
-                }
-                maps.setOnClickListener {
-                    setGoogleMapsCoordinates(details.lat, details.lng, args.name)
+                details?.let {
+                    price.text = details.price ?: setNotAvailable()
+                    rating.text = "${details.rating} / 10"
+                    openingHours.text = details.openingHours ?: setNotAvailable()
+                    Glide.with(requireContext()).load(details.thumbnail).centerCrop()
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .error(R.drawable.ic_error)
+                        .into(thumbnail)
+                    shareButton.setOnClickListener {
+                        shareCanonicalUrl(details.canonicalUrl)
+                    }
+                    maps.setOnClickListener {
+                        setGoogleMapsCoordinates(details.lat, details.lng, args.name)
+                    }
                 }
             }
         })
@@ -95,6 +94,8 @@ class DetailedVenueFragment : Fragment(R.layout.detailed_venue_fragment) {
             }
         })
     }
+
+    private fun setNotAvailable() = requireContext().getText(R.string.not_available)
 
     private fun shareCanonicalUrl(url: String) {
         val sendIntent = Intent().apply {

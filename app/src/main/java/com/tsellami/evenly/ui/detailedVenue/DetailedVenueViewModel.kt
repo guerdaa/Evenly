@@ -2,33 +2,45 @@ package com.tsellami.evenly.ui.detailedVenue
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tsellami.evenly.repository.VenuesRepository
-import com.tsellami.evenly.rooms.DetailedVenue
-import com.tsellami.evenly.ui.LoadingViewModel
-import com.tsellami.evenly.utils.Resource
+import com.tsellami.evenly.repository.api.IDetailedVenueRepository
+import com.tsellami.evenly.repository.api.IFavoritesRepository
+import com.tsellami.evenly.repository.rooms.models.DetailedVenue
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class DetailedVenueViewModel @Inject constructor(
-    private val repository: VenuesRepository
-) : LoadingViewModel() {
+    private val detailedVenueRepository: IDetailedVenueRepository,
+    private val favoritesRepository: IFavoritesRepository
+) : ViewModel() {
+
+    private val channel = Channel<RetrievingEvent>()
+    val resource = channel.receiveAsFlow()
 
     private val _details = MutableLiveData<DetailedVenue>()
-    val details : LiveData<DetailedVenue>
+    val details: LiveData<DetailedVenue>
         get() = _details
 
     private val _isFavorite = MutableLiveData<Boolean>()
-    val isFavorite : LiveData<Boolean>
+    val isFavorite: LiveData<Boolean>
         get() = _isFavorite
+
+    init {
+        viewModelScope.launch {
+            channel.send(RetrievingEvent.Loading)
+        }
+    }
 
     fun retrieveDetails(id: String) {
         viewModelScope.launch {
-            _details.value = repository.retrieveVenueDetails(id)
-            _isFavorite.value = repository.retrieveIsFavorite(id)
-            channel.send(Resource.Success)
+            _details.value = detailedVenueRepository.retrieveVenueDetails(id)
+            _isFavorite.value = favoritesRepository.retrieveIsFavorite(id)
+            channel.send(RetrievingEvent.Success)
         }
     }
 
@@ -41,11 +53,16 @@ class DetailedVenueViewModel @Inject constructor(
         viewModelScope.launch {
             _isFavorite.value?.let { favorite ->
                 if (favorite) {
-                    repository.addToFavorites(id)
+                    favoritesRepository.addToFavorites(id)
                 } else {
-                    repository.removeFromFavorites(id)
+                    favoritesRepository.removeFromFavorites(id)
                 }
             }
         }
+    }
+
+    sealed class RetrievingEvent {
+        object Loading : RetrievingEvent()
+        object Success : RetrievingEvent()
     }
 }

@@ -1,15 +1,10 @@
 package com.tsellami.evenly
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.tsellami.evenly.databinding.ActivityMainBinding
-import com.tsellami.evenly.ui.explore.ExploreFragment
-import com.tsellami.evenly.ui.favorites.FavoritesFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

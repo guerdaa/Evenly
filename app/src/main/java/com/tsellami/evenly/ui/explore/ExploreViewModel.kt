@@ -4,22 +4,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.tsellami.evenly.repository.VenuesRepository
+import com.tsellami.evenly.repository.api.IRecommendationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ExploreViewModel @Inject constructor(
-    private val repository: VenuesRepository
+    private val recommendationsRepository: IRecommendationsRepository
 ) : ViewModel() {
 
-    val venues = repository.getRecommendationsResultPaged().cachedIn(viewModelScope).asLiveData()
+    val venues = recommendationsRepository.getRecommendationsResultPaged()
+        .cachedIn(viewModelScope).asLiveData()
 
     fun deleteCachedData() {
         viewModelScope.launch {
-            repository.deleteAllRecommendations()
+            recommendationsRepository.deleteAllRecommendations()
         }
     }
-
 }

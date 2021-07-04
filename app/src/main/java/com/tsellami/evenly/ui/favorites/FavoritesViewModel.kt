@@ -4,24 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
-import com.tsellami.evenly.repository.VenuesRepository
-import com.tsellami.evenly.rooms.Venue
+import com.tsellami.evenly.repository.api.IFavoritesRepository
+import com.tsellami.evenly.repository.rooms.models.Venue
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-    private val repository: VenuesRepository
-): ViewModel() {
+    private val favoritesRepository: IFavoritesRepository
+) : ViewModel() {
 
     val favorites: LiveData<PagingData<Venue>> = Pager(
         config = PagingConfig(
             pageSize = 10,
-            maxSize = 100
+            maxSize = 100,
+            enablePlaceholders = false
         )
     ) {
-        repository.retrieveFavorites()
+        favoritesRepository.retrieveFavorites()
     }.liveData.cachedIn(viewModelScope)
-
 }

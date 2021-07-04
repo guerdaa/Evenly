@@ -1,15 +1,14 @@
 package com.tsellami.evenly.repository
 
-import android.util.Log
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.tsellami.evenly.network.recommendations.FoursquareApi
-import com.tsellami.evenly.rooms.Venue
-import com.tsellami.evenly.rooms.VenuesDatabase
-import com.tsellami.evenly.rooms.VenuesRemoteKey
+import com.tsellami.evenly.repository.network.FoursquareApi
+import com.tsellami.evenly.repository.rooms.VenuesDatabase
+import com.tsellami.evenly.repository.rooms.models.Venue
+import com.tsellami.evenly.repository.rooms.models.VenuesRemoteKey
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -17,14 +16,14 @@ import java.io.IOException
 class VenuesRemoteMediator(
     private val database: VenuesDatabase,
     private val foursquareApi: FoursquareApi
-) : RemoteMediator<Int, Venue>(){
+) : RemoteMediator<Int, Venue>() {
 
     private val remoteKeyDao = database.remoteKeysDao()
     private val venuesDao = database.venuesDao()
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Venue>): MediatorResult {
         try {
-            val loadKey = when(loadType) {
+            val loadKey = when (loadType) {
                 LoadType.REFRESH -> 0
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
@@ -34,11 +33,16 @@ class VenuesRemoteMediator(
                         remoteKeyDao.getRemoteKey()!!.nextPageKey
                 }
             }
-
             val data = foursquareApi.getRecommendations(offset = loadKey.times(50))
             val venues = data.response.groups.first().items.map {
                 it.venue.let { venue ->
-                    Venue(venue.id, venue.name, venue.categories.first().name, venue.formattedLocation, venue.location.distance, false)
+                    Venue(
+                        venue.id,
+                        venue.name,
+                        venue.categories.first().name,
+                        venue.formattedLocation,
+                        venue.location.distance,
+                    )
                 }
             }
             database.withTransaction {

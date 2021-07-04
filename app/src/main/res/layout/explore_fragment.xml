@@ -7,10 +7,10 @@
     tools:context=".ui.explore.ExploreFragment">
 
     <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loading_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:id="@+id/loading"
         android:padding="20dp"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
@@ -74,6 +74,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:id="@+id/info_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
+            android:gravity="center"
+            android:text="@string/nothing_found"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:visibility="gone"
+            app:drawableBottomCompat="@drawable/ic_empty"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

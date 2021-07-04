@@ -2,10 +2,15 @@ package com.tsellami.evenly.di
 
 import android.app.Application
 import androidx.room.Room
-import androidx.room.RoomDatabase
-import com.tsellami.evenly.network.recommendations.FoursquareApi
-import com.tsellami.evenly.network.recommendations.FoursquareApi.Companion.BASE_URL
-import com.tsellami.evenly.rooms.VenuesDatabase
+import com.tsellami.evenly.repository.DetailedVenueRepository
+import com.tsellami.evenly.repository.FavoritesRepository
+import com.tsellami.evenly.repository.RecommendationsRepository
+import com.tsellami.evenly.repository.api.IDetailedVenueRepository
+import com.tsellami.evenly.repository.api.IFavoritesRepository
+import com.tsellami.evenly.repository.api.IRecommendationsRepository
+import com.tsellami.evenly.repository.network.FoursquareApi
+import com.tsellami.evenly.repository.network.FoursquareApi.Companion.BASE_URL
+import com.tsellami.evenly.repository.rooms.VenuesDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,4 +35,24 @@ class AppModule {
         Room.databaseBuilder(app, VenuesDatabase::class.java, "venues_database")
             .fallbackToDestructiveMigration()
             .build()
+
+    @Provides
+    @Singleton
+    fun provideRecommendationsRepository(
+        venuesDatabase: VenuesDatabase,
+        foursquareApi: FoursquareApi
+    ): IRecommendationsRepository = RecommendationsRepository(venuesDatabase, foursquareApi)
+
+    @Provides
+    @Singleton
+    fun provideDetailedVenueRepository(
+        venuesDatabase: VenuesDatabase,
+        foursquareApi: FoursquareApi
+    ): IDetailedVenueRepository = DetailedVenueRepository(venuesDatabase, foursquareApi)
+
+    @Provides
+    @Singleton
+    fun provideFavoritesRepository(
+        venuesDatabase: VenuesDatabase,
+    ): IFavoritesRepository = FavoritesRepository(venuesDatabase)
 }

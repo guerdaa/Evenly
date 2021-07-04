@@ -6,9 +6,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.tsellami.evenly.databinding.VenueItemLayoutBinding
-import com.tsellami.evenly.rooms.Venue
+import com.tsellami.evenly.repository.rooms.models.Venue
 
-class VenueAdapter(private val listener: OnItemListener):
+class VenueAdapter(private val listener: OnItemListener) :
     PagingDataAdapter<Venue, VenueAdapter.VenueViewHolder>(DiffComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VenueViewHolder {
@@ -22,7 +22,7 @@ class VenueAdapter(private val listener: OnItemListener):
         holder.bind(currentVenue)
     }
 
-    inner class VenueViewHolder(private val binding: VenueItemLayoutBinding):
+    inner class VenueViewHolder(private val binding: VenueItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -41,7 +41,6 @@ class VenueAdapter(private val listener: OnItemListener):
                 binding.distance.text = "${venue.distance}m"
                 binding.address.text = venue.address
             }
-
         }
     }
 
@@ -49,7 +48,7 @@ class VenueAdapter(private val listener: OnItemListener):
         fun onClick(venue: Venue)
     }
 
-    class DiffComparator: DiffUtil.ItemCallback<Venue>() {
+    class DiffComparator : DiffUtil.ItemCallback<Venue>() {
         override fun areItemsTheSame(
             oldItem: Venue,
             newItem: Venue
