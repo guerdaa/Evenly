@@ -13,7 +13,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class DetailedVenueViewModelTest: BaseViewModelTest() {
+class DetailedVenueViewModelTest : BaseViewModelTest() {
 
     private val detailedVenueRepository: IDetailedVenueRepository = mockk(relaxed = true)
     private val favoritesRepository: IFavoritesRepository = mockk(relaxed = true)
